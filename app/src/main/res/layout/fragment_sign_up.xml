@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.registration.sign_up.SignUpFragment">
+
+    <TextView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        android:fontFamily="@font/alfa_slab_one"
+        android:gravity="center"
+        android:text="Roʻyxatdan oʻtish"
+        android:textAllCaps="true"
+        android:textColor="@color/blue"
+        android:textSize="32sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_name"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        app:cardCornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        app:strokeColor="@color/cv_stroke_color"
+        app:strokeWidth="2dp">
+
+        <EditText
+            android:id="@+id/ev_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/white"
+            android:ems="10"
+            android:freezesText="true"
+            android:hint="Enter Your Name"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:lines="1"
+            android:paddingStart="24dp"
+            android:saveEnabled="true"
+            android:text=""
+            android:textColorHint="@color/edit_hint_color"
+            android:textCursorDrawable="@drawable/edit_text_cursore"
+            android:textSize="16sp" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_surname"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        app:cardCornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cv_name"
+        app:strokeColor="@color/cv_stroke_color"
+        app:strokeWidth="2dp">
+
+        <EditText
+            android:id="@+id/ev_surename"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/white"
+            android:ems="10"
+            android:freezesText="true"
+            android:hint="Enter Your Surname"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:lines="1"
+            android:paddingStart="24dp"
+            android:saveEnabled="true"
+            android:text=""
+            android:textColorHint="@color/edit_hint_color"
+            android:textCursorDrawable="@drawable/edit_text_cursore"
+            android:textSize="16sp" />
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_number"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        app:cardCornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cv_surname"
+        app:strokeColor="@color/cv_stroke_color"
+        app:strokeWidth="2dp">
+
+        <EditText
+            android:id="@+id/ev_number"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/white"
+            android:ems="10"
+            android:freezesText="true"
+            android:hint="Enter Your Number"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:lines="1"
+            android:paddingStart="24dp"
+            android:saveEnabled="true"
+            android:text=""
+            android:textColorHint="@color/edit_hint_color"
+            android:textCursorDrawable="@drawable/edit_text_cursore"
+            android:textSize="16sp" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_email"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        app:cardCornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cv_number"
+        app:strokeColor="@color/cv_stroke_color"
+        app:strokeWidth="2dp">
+
+        <EditText
+            android:id="@+id/editTextTextEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/white"
+            android:ems="10"
+            android:freezesText="true"
+            android:hint="@string/email"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:inputType="textWebEmailAddress"
+            android:lines="1"
+            android:paddingStart="24dp"
+            android:saveEnabled="true"
+            android:text=""
+            android:textColorHint="@color/edit_hint_color"
+            android:textCursorDrawable="@drawable/edit_text_cursore"
+            android:textSize="16sp" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/tv_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:text=""
+        android:textColor="@android:color/holo_red_dark"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="@+id/cv_email"
+        app:layout_constraintStart_toStartOf="@+id/cv_email"
+        app:layout_constraintTop_toBottomOf="@+id/cv_password" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_password"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        app:cardCornerRadius="12dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="@+id/cv_email"
+        app:layout_constraintStart_toStartOf="@+id/cv_email"
+        app:layout_constraintTop_toBottomOf="@+id/cv_email"
+        app:strokeColor="@color/cv_stroke_color"
+        app:strokeWidth="2dp">
+        <EditText
+            android:id="@+id/editTextTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/white"
+            android:ems="10"
+            android:hint="@string/password"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            android:lines="1"
+            android:paddingStart="24dp"
+            android:textColorHint="@color/edit_hint_color"
+            android:textCursorDrawable="@drawable/edit_text_cursore"
+            android:textSize="16sp" />
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/blue"
+        android:text="Sign Up"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="@+id/cv_password"
+        app:layout_constraintStart_toStartOf="@+id/cv_password"
+        app:layout_constraintTop_toBottomOf="@+id/tv_error"
+        />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Already Registered? Sign In"
+        android:textColor="@color/black"
+        android:textStyle="normal"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="@+id/button"
+        app:layout_constraintStart_toStartOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "469045340233",
+    "project_id": "yandexmap-419fe",
+    "storage_bucket": "yandexmap-419fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:469045340233:android:89acd0e30f86fd4dfc7798",
+        "android_client_info": {
+          "package_name": "com.example.ambulance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "469045340233-p0fpg423f18jn1qoujjhegiop6sirld5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ambulance",
+            "certificate_hash": "36f655c005225fdc558501be577fc11ed77c8ea8"
+          }
+        },
+        {
+          "client_id": "469045340233-t1oimbe43lj2qpqs1fo576hj75409hvc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmBhBdNTzflOaZozZQlxK4y37LcAU5OeI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "469045340233-t1oimbe43lj2qpqs1fo576hj75409hvc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

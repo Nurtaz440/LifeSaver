@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:id="@+id/motion"
     app:layoutDescription="@xml/fragment_home_map_scene"
     tools:context=".ui.client.ui.HomeMapFragment">
 
@@ -16,81 +17,42 @@
         app:layout_constraintBottom_toTopOf="@id/cv_bottom_sheet"
         />
 
-    <EditText
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/et_search"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_margin="16dp"
-        android:background="@drawable/poisk"
-        android:hint="   Поиск"
-        android:imeOptions="actionSearch"
-        android:inputType="text"
-        android:paddingLeft="15dp"
+        android:textColor="@color/white"
+        android:backgroundTint="#E53935"
+        android:text="Favqulodda Qo'ng'iroq"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/probikbtn"
+        android:id="@+id/cv_current_location"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="20dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="100dp"
+        app:cardElevation="6dp"
+        android:elevation="6dp"
         android:layout_marginBottom="24dp"
-        app:cardBackgroundColor="@color/blue"
-        app:cardCornerRadius="100dp"
-        app:layout_constraintBottom_toTopOf="@+id/cv_bottom_sheet"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-
-
-    <ListView
-        android:id="@+id/list_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:background="@color/white"
-        android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@+id/cv_green"
-        app:layout_constraintStart_toEndOf="@+id/cv_red"
-        app:layout_constraintTop_toBottomOf="@+id/et_search" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_green"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="20dp"
-        app:cardBackgroundColor="#A5DA58"
-        app:cardCornerRadius="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_search">
-
-        <Button
-            android:id="@+id/btlv"
+        app:layout_constraintEnd_toEndOf="@+id/et_search"
+        app:layout_constraintBottom_toTopOf="@+id/cv_bottom_sheet">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="-10dp"
-            android:backgroundTint="#A5DA58" />
+            android:layout_height="match_parent">
 
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_red"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="24dp"
-        app:cardBackgroundColor="#DF074B"
-        app:cardCornerRadius="100dp"
-        app:layout_constraintStart_toStartOf="@+id/et_search"
-        app:layout_constraintTop_toBottomOf="@+id/et_search">
-
-        <Button
-            android:id="@+id/btcancel"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="-10dp"
-            android:backgroundTint="#DF074B" />
-
+            <ImageView
+                android:id="@+id/ic_current"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="2dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/current_location" />
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -125,8 +87,35 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="4">
+                <LinearLayout
+                    android:id="@+id/ll_fire"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:importantForAccessibility="no"
+                        android:padding="25dp"
+                        android:elevation="5dp"
+                        android:background="@drawable/bg_image"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/fire" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="101"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        />
 
+                </LinearLayout>
                 <LinearLayout
                     android:id="@+id/ll_ambulance"
                     android:layout_width="0dp"
@@ -138,15 +127,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
                         android:importantForAccessibility="no"
-                        android:padding="15dp"
+                        android:padding="20dp"
                         android:elevation="5dp"
                         android:background="@drawable/bg_image"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ambulance" />
+                        android:src="@drawable/police" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="103"
+                        android:text="102"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="8dp"
                         android:textStyle="bold"
@@ -168,15 +157,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
                         android:importantForAccessibility="no"
-                        android:padding="15dp"
+                        android:padding="20dp"
                         android:elevation="5dp"
                         android:background="@drawable/bg_image"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/police" />
+                        android:src="@drawable/ambulance" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="102"
+                        android:text="103"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="8dp"
                         android:textStyle="bold"
@@ -187,8 +176,9 @@
                 </LinearLayout>
 
 
+
                 <LinearLayout
-                    android:id="@+id/ll_fire"
+                    android:id="@+id/ll_gas"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -202,7 +192,7 @@
                         android:elevation="5dp"
                         android:background="@drawable/bg_image"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/fire" />
+                        android:src="@drawable/gas_servise" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -217,19 +207,22 @@
                 </LinearLayout>
 
             </LinearLayout>
+
             <EditText
                 android:id="@+id/et_comment"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:layout_margin="16dp"
+                android:layout_below="@id/ll_center"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/poisk"
                 android:hint="   Ma'lumot yozing"
                 android:imeOptions="actionSend"
-                android:isScrollContainer="true"
                 android:inputType="textMultiLine"
-                android:layout_below="@id/ll_center"
-                android:paddingLeft="15dp"
-           />
+                android:isScrollContainer="true"
+                android:paddingLeft="15dp" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 

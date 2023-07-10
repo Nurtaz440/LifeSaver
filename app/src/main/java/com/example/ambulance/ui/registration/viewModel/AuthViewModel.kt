@@ -13,6 +13,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private var userData : MutableLiveData<FirebaseUser>
     private var loggedStatus : MutableLiveData<Boolean>
     private var _isLoading = MutableLiveData<Boolean>()
+
     val isLoading: LiveData<Boolean>
         get() = _isLoading
     fun getUserData() : MutableLiveData<FirebaseUser>{
@@ -28,12 +29,12 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         loggedStatus = repository.getUserLogged()
     }
 
-    fun register(email : String, pass: String,onSuccess: () -> Unit,onError: (String) -> Unit){
-        repository.register(email,pass,onSuccess,onError)
+    fun register(email : String, pass: String,name:String,surname:String,number:String,onSuccess: () -> Unit,onError: (String) -> Unit){
+        repository.register(email,pass,name,surname,number,onSuccess,onError)
         _isLoading = repository.isLoading
     }
     fun signIn(email: String,pass: String,onSuccess: () -> Unit,onError: (String) -> Unit){
-        repository.login(email,pass,onSuccess,onError)
+        repository.login(email,pass, onSuccess,onError)
         _isLoading = repository.isLoading
     }
     fun signOut(){
@@ -42,7 +43,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     fun firebaseUser():FirebaseUser?{
        return repository.getCurrentUser()
     }
-    fun getRole():String{
+    fun getRoles():String{
         return repository.role
     }
 

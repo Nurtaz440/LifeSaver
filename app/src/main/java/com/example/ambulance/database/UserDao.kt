@@ -9,11 +9,11 @@ import com.example.ambulance.model.UserDetails
 
 @Dao
 interface UserDao {
-
-    @Query("SELECT * FROM users")
-    fun getAllUsers(): LiveData<UserDetails>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertUser(user: UserDetails)
+//
+//    @Query("SELECT * FROM users")
+//    fun getAllUsers(): LiveData<UserDetails>
+//
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    suspend fun insertUser(user: UserDetails)
 
 }

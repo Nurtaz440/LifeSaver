@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.datastore.DataStore
 import androidx.datastore.preferences.Preferences
 import androidx.datastore.preferences.createDataStore
@@ -15,17 +14,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.ambulance.R
-import com.example.ambulance.database.AppDatabase
 import com.example.ambulance.databinding.FragmentSignUpBinding
-import com.example.ambulance.repository.UserRepository
 import com.example.ambulance.ui.registration.viewModel.AuthViewModel
+import com.example.ambulance.util.SharedPreferencesManager
 import kotlinx.coroutines.launch
 
 class SignUpFragment : Fragment() {
     private var _binding: FragmentSignUpBinding? = null
     val binding get() = _binding!!
     private lateinit var viewModel : AuthViewModel
-    private lateinit var registrationViewModel: RegistrationViewModel
 
     private lateinit var prefs: DataStore<Preferences>
     override fun onCreateView(
@@ -42,16 +39,6 @@ class SignUpFragment : Fragment() {
 
         viewModel = ViewModelProvider(this,ViewModelProvider.AndroidViewModelFactory
             .getInstance(requireActivity().application)).get(AuthViewModel::class.java)
-
-        val userDao = AppDatabase.getInstance(requireContext()).userDao()
-        val userRepository = UserRepository(userDao)
-        registrationViewModel = ViewModelProvider(this,
-            RegistrationViewModel.RegistrationViewModelFactory(userRepository)
-        )
-            .get(RegistrationViewModel::class.java)
-//            ViewModelProvider.AndroidViewModelFactory
-//            .getInstance(requireActivity().application)).get(RegistrationViewModel::class.java)
-
 
 
         viewModel.getUserData().observe(this) {
@@ -75,18 +62,17 @@ class SignUpFragment : Fragment() {
             val pass = binding.editTextTextPassword.text.toString()
 
             if (!email.isEmpty() && !pass.isEmpty()){
-                viewModel.register(email,pass,onSuccess = {
-                    binding.progressBar.visibility = View.VISIBLE
-                    with(viewModel) {
-                        isLoading.observe(viewLifecycleOwner) {
-                            if (!it) binding.progressBar.visibility = View.GONE
-                        }
+                binding.progressBar.visibility = View.VISIBLE
+                with(viewModel) {
+                    isLoading.observe(viewLifecycleOwner) {
+                        if (!it) binding.progressBar.visibility = View.GONE
                     }
-                    registrationViewModel.registerUser(name,surname,number)
+                }
 
+                viewModel.register(email,pass,name,surname,number,onSuccess = {
                     // Admin login successful, navigate to admin page
                     binding.tvError.text = ""
-
+                    SharedPreferencesManager.setEmail(requireContext(),email,pass)
                     findNavController().navigate(R.id.action_signUpFragment_to_clientHomeFragment)
                     lifecycleScope.launch {
                         saveOnboarding()
@@ -106,14 +92,6 @@ class SignUpFragment : Fragment() {
             }
 
         }
-        registrationViewModel.registrationResult.observe(viewLifecycleOwner, { success ->
-            if (success) {
-
-                Toast.makeText(context, "Registration successful", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, "Registration failed", Toast.LENGTH_SHORT).show()
-            }
-        })
     }
     //suspend function to save the onboarding to datastore
     suspend fun saveOnboarding() {

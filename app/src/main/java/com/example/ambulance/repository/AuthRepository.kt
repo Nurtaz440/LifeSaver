@@ -2,7 +2,6 @@ package com.example.ambulance.repository
 
 import android.app.Application
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -21,6 +20,8 @@ class AuthRepository(application: Application) {
     private var auth: FirebaseAuth
     var role = ""
     var isLoading = MutableLiveData<Boolean>(false)
+
+
     init {
         this.application = application
         firebaseUserMutableLiveData = MutableLiveData()
@@ -40,7 +41,7 @@ class AuthRepository(application: Application) {
         return userLogged
     }
 
-    fun register(email: String, pass: String,onSuccess: () -> Unit,onError: (String) -> Unit) {
+    fun register(email: String, pass: String,name:String,surname:String,number:String,onSuccess: () -> Unit,onError: (String) -> Unit) {
         isLoading.value = true
         auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(
             object : OnCompleteListener<AuthResult> {
@@ -53,7 +54,10 @@ class AuthRepository(application: Application) {
                         val userRef =
                             FirebaseDatabase.getInstance().getReference("users/${user?.uid}")
                         val userData = HashMap<String, Any>()
-                        userData["name"] = email
+                        userData["email"] = email
+                        userData["name"] = name
+                        userData["surname"] = surname
+                        userData["number"] = number
                         userData["role"] = "client" // Set the role as client for user registration
 
                         userRef.setValue(userData).addOnSuccessListener {
@@ -86,7 +90,9 @@ class AuthRepository(application: Application) {
                         userRef.addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
                                  role = dataSnapshot.child("role").getValue(String::class.java)!!
+
                                 Log.d("TAG"+ "role",role )
+
                                 onSuccess.invoke()
                             }
 

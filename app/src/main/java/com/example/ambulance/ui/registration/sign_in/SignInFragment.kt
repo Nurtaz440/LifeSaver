@@ -1,24 +1,22 @@
 package com.example.ambulance.ui.registration.sign_in
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.datastore.DataStore
 import androidx.datastore.preferences.Preferences
 import androidx.datastore.preferences.createDataStore
 import androidx.datastore.preferences.edit
 import androidx.datastore.preferences.preferencesKey
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.ambulance.R
 import com.example.ambulance.databinding.FragmentSignInBinding
-import com.example.ambulance.databinding.FragmentSignUpBinding
 import com.example.ambulance.ui.registration.viewModel.AuthViewModel
-import com.google.firebase.auth.FirebaseUser
+import com.example.ambulance.util.SharedPreferencesManager
 import kotlinx.coroutines.launch
 
 class SignInFragment : Fragment() {
@@ -70,14 +68,16 @@ class SignInFragment : Fragment() {
                 viewModel.signIn(email,pass, onSuccess = {
                     binding.tvError.text = ""
                     val currentUser = viewModel.firebaseUser()
-                    val role = viewModel.getRole()
+                    val role = viewModel.getRoles()
+                   // val getUserDetails = viewModel.getUserDetails()
+
                     if (currentUser != null && role == "admin") {
                         // Admin login, navigate to admin page
                         navigateToAdminPage()
 
                     } else if (currentUser != null && role == "client"){
                         // Client login, navigate to client page
-                        navigateToClientPage()
+                        navigateToClientPage(email,pass)
                     }
                 },
                 onError = { errorMessage ->
@@ -106,8 +106,9 @@ class SignInFragment : Fragment() {
         }
     }
 
-    private fun navigateToClientPage() {
+    private fun navigateToClientPage(email:String,pass:String) {
         // TODO: Implement client page navigation
+        SharedPreferencesManager.setEmail(requireContext(),email,pass)
         findNavController().navigate(R.id.action_signInFragment_to_clientHomeFragment)
         lifecycleScope.launch {
             saveOnboardingClient()

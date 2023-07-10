@@ -7,7 +7,7 @@ import com.example.ambulance.model.UserDetails
 import com.example.ambulance.repository.UserRepository
 
 class ProfileViewModel(private val userRepository: UserRepository) : ViewModel() {
-    val allUsers: LiveData<UserDetails> = userRepository.allUsers
+//    val allUsers: LiveData<UserDetails> = userRepository.allUsers
 
     class ProfileViewModelFactory(private val userRepository: UserRepository) :
         ViewModelProvider.Factory {

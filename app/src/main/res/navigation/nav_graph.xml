@@ -47,6 +47,16 @@
         android:name="com.example.ambulance.ui.client.ClientHomeFragment"
         android:label="fragment_client_home"
         tools:layout="@layout/fragment_client_home" >
+<!--        <argument-->
+<!--            android:name="email"-->
+<!--            app:argType="string" />-->
+<!--         <argument-->
+<!--            android:name="password"-->
+<!--            app:argType="string" />-->
+<!--         <argument-->
+<!--            android:name="phoneNumber"-->
+<!--            app:argType="string" />-->
+
         <action
             android:id="@+id/action_clientHomeFragment_to_signInFragment"
             app:destination="@id/signInFragment"

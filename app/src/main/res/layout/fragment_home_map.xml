@@ -2,10 +2,10 @@
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/motion"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:id="@+id/motion"
     app:layoutDescription="@xml/fragment_home_map_scene"
     tools:context=".ui.client.ui.HomeMapFragment">
 
@@ -14,17 +14,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="-20dp"
-        app:layout_constraintBottom_toTopOf="@id/cv_bottom_sheet"
-        />
+        app:layout_constraintBottom_toTopOf="@id/cv_bottom_sheet" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/et_search"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_margin="16dp"
-        android:textColor="@color/white"
         android:backgroundTint="#E53935"
-        android:text="Favqulodda Qo'ng'iroq"
+        android:text="Emergency Call"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,13 +32,14 @@
         android:id="@+id/cv_current_location"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="24dp"
+        android:elevation="6dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="100dp"
         app:cardElevation="6dp"
-        android:elevation="6dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintEnd_toEndOf="@+id/et_search"
-        app:layout_constraintBottom_toTopOf="@+id/cv_bottom_sheet">
+        app:layout_constraintBottom_toTopOf="@+id/cv_bottom_sheet"
+        app:layout_constraintEnd_toEndOf="@+id/et_search">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -48,8 +48,8 @@
                 android:id="@+id/ic_current"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginBottom="4dp"
                 android:layout_marginEnd="2dp"
+                android:layout_marginBottom="4dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/current_location" />
         </RelativeLayout>
@@ -83,147 +83,182 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btn_view"
-                android:layout_marginTop="12dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="16dp"
                 android:orientation="horizontal"
                 android:weightSum="4">
+
                 <LinearLayout
                     android:id="@+id/ll_fire"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_margin="4dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <ImageView
+                        android:id="@+id/iv_fire"
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
+                        android:background="@drawable/bg_image"
+                        android:elevation="5dp"
                         android:importantForAccessibility="no"
                         android:padding="25dp"
-                        android:elevation="5dp"
-                        android:background="@drawable/bg_image"
                         android:scaleType="centerCrop"
                         android:src="@drawable/fire" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
                         android:text="101"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="8dp"
-                        android:textStyle="bold"
                         android:textColor="@color/black"
                         android:textSize="18sp"
-                        />
+                        android:textStyle="bold" />
 
                 </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/ll_ambulance"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:importantForAccessibility="no"
-                        android:padding="20dp"
-                        android:elevation="5dp"
-                        android:background="@drawable/bg_image"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/police" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="102"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="8dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        />
-
-                </LinearLayout>
-
 
                 <LinearLayout
                     android:id="@+id/ll_police"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_margin="4dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <ImageView
+                        android:id="@+id/iv_ambulance"
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
+                        android:background="@drawable/bg_image"
+                        android:elevation="5dp"
                         android:importantForAccessibility="no"
                         android:padding="20dp"
-                        android:elevation="5dp"
-                        android:background="@drawable/bg_image"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ambulance" />
+                        android:src="@drawable/police" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="103"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="8dp"
-                        android:textStyle="bold"
+                        android:text="102"
                         android:textColor="@color/black"
                         android:textSize="18sp"
-                        />
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
+
+                <LinearLayout
+                    android:id="@+id/ll_ambulance"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/iv_police"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:background="@drawable/bg_image"
+                        android:elevation="5dp"
+                        android:importantForAccessibility="no"
+                        android:padding="20dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ambulance" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
+                        android:text="103"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
 
                 <LinearLayout
                     android:id="@+id/ll_gas"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_margin="4dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <ImageView
+                        android:id="@+id/iv_gas"
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
+                        android:background="@drawable/bg_image"
+                        android:elevation="5dp"
                         android:importantForAccessibility="no"
                         android:padding="15dp"
-                        android:elevation="5dp"
-                        android:background="@drawable/bg_image"
                         android:scaleType="centerCrop"
                         android:src="@drawable/gas_servise" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="104"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="8dp"
-                        android:textStyle="bold"
+                        android:text="104"
                         android:textColor="@color/black"
                         android:textSize="18sp"
-                        />
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/et_comment"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="match_parent"
                 android:layout_below="@id/ll_center"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/poisk"
-                android:hint="   Ma'lumot yozing"
-                android:imeOptions="actionSend"
-                android:inputType="textMultiLine"
-                android:isScrollContainer="true"
-                android:paddingLeft="15dp" />
+                android:layout_marginEnd="16dp">
+
+                <EditText
+                    android:id="@+id/et_comment"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/poisk"
+                    android:hint="   Write info"
+                    android:imeOptions="actionSend"
+                    android:inputType="textMultiLine"
+                    android:isScrollContainer="true"
+                    android:paddingLeft="15dp"
+                    android:paddingEnd="50dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_message_send"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:elevation="2dp"
+                    android:importantForAccessibility="no"
+                    android:padding="4dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/baseline_send_24"
+                    app:layout_constraintBottom_toBottomOf="@id/et_comment"
+                    app:layout_constraintEnd_toEndOf="@id/et_comment"
+                    app:layout_constraintTop_toTopOf="@+id/et_comment" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

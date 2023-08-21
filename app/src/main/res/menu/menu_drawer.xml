@@ -4,34 +4,34 @@
     <group>
     <item
         android:id="@+id/nav_item0"
-        android:title="Asosiy Oyna"
+        android:title="Home"
         android:icon="@drawable/baseline_home_24"/>
     <item
         android:id="@+id/nav_item"
-        android:title="Chaqiruvlar tarixi"
+        android:title="History"
         android:icon="@drawable/baseline_history_24"/>
     <item
         android:id="@+id/nav_item1"
-        android:title="Mening manzillarim"
+        android:title="My Locations"
         android:icon="@drawable/baseline_location_on_24"/>
     <item
         android:id="@+id/nav_item2"
-        android:title="Shikoyat va Takliflar"
+        android:title="Complains and Comments"
         android:icon="@drawable/baseline_comment_24"/>
     <item
         android:id="@+id/nav_item3"
-        android:title="Sozlamalar"
+        android:title="Settings"
         android:icon="@drawable/baseline_settings_24"/>
 
     <item
         android:id="@+id/nav_item4"
-        android:title="Ma'lumot"
+        android:title="About"
         android:icon="@drawable/baseline_info_24"/>
     </group>
     <group>
         <item
             android:id="@+id/nav_item5"
-            android:title="Chiqish"
+            android:title="Sign out"
             android:icon="@drawable/baseline_logout_24"/>
     </group>
 

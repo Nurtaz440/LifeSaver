@@ -1,12 +1,14 @@
 package com.example.ambulance.repository
 
-import androidx.lifecycle.LiveData
-import com.example.ambulance.database.UserDao
-import com.example.ambulance.model.UserDetails
+import com.example.ambulance.database.AppDatabase
+import com.example.ambulance.model.UserLocations
 
-class UserRepository(private val userDao: UserDao) {
-//    val allUsers: LiveData<UserDetails> = userDao.getAllUsers()
-//    suspend fun insertUser(user: UserDetails) {
-//        userDao.insertUser(user)
-//    }
+class UserRepository(private val db: AppDatabase) {
+
+    suspend fun addNote(locations: UserLocations) = db.userDao().insertLocations(locations)
+    suspend fun update(locations: UserLocations) = db.userDao().updateLocation(locations)
+    suspend fun delete(locations: UserLocations) = db.userDao().deleteLocation(locations)
+
+    fun getAllLocations() = db.userDao().getAllUsers()
+
 }

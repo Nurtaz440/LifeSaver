@@ -73,6 +73,7 @@ class SignUpFragment : Fragment() {
                     // Admin login successful, navigate to admin page
                     binding.tvError.text = ""
                     SharedPreferencesManager.setEmail(requireContext(),email,pass)
+                    SharedPreferencesManager.setRegistered(requireContext(), true)
                     findNavController().navigate(R.id.action_signUpFragment_to_clientHomeFragment)
                     lifecycleScope.launch {
                         saveOnboarding()

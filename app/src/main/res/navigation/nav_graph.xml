@@ -61,6 +61,15 @@
             android:id="@+id/action_clientHomeFragment_to_signInFragment"
             app:destination="@id/signInFragment"
             app:popUpTo="@id/clientHomeFragment" />
+
+        <action
+            android:id="@+id/action_clientHomeFragment_to_aboutFragment2"
+            app:destination="@id/aboutFragment2"
+            app:popUpTo="@id/clientHomeFragment" />
+        <action
+            android:id="@+id/action_clientHomeFragment_to_complainFragment2"
+            app:destination="@id/complainFragment2"
+            app:popUpTo="@id/clientHomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeAdminFragment"
@@ -72,5 +81,60 @@
             app:destination="@id/signInFragment"
             app:popUpTo="@id/homeAdminFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/aboutFragment2"
+        android:name="com.example.ambulance.ui.client.ui.AboutFragment"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/complainFragment2"
+        android:name="com.example.ambulance.ui.client.ui.ComplainFragment"
+        android:label="fragment_complain"
+        tools:layout="@layout/fragment_complain" />
+    <fragment
+        android:id="@+id/adLocationFragment"
+        android:name="com.example.ambulance.ui.client.ui.addLocation.AdLocationFragment"
+        android:label="fragment_ad_location"
+        tools:layout="@layout/fragment_ad_location" />
+    <fragment
+        android:id="@+id/addOtherFragment"
+        android:name="com.example.ambulance.ui.client.ui.addLocation.AddOtherFragment"
+        android:label="fragment_add_other"
+        tools:layout="@layout/fragment_add_other" />
+    <fragment
+        android:id="@+id/historyClientFragment"
+        android:name="com.example.ambulance.ui.client.ui.HistoryClientFragment"
+        android:label="fragment_history_client"
+        tools:layout="@layout/fragment_history_client" />
+    <fragment
+        android:id="@+id/homeMapFragment"
+        android:name="com.example.ambulance.ui.client.ui.HomeMapFragment"
+        android:label="fragment_home_map"
+        tools:layout="@layout/fragment_home_map" />
+    <fragment
+        android:id="@+id/locationsFragment"
+        android:name="com.example.ambulance.ui.client.ui.LocationsFragment"
+        android:label="fragment_locations"
+        tools:layout="@layout/fragment_locations" >
+        <action
+            android:id="@+id/action_locationsFragment_to_updateLocationFragment"
+            app:destination="@id/updateLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.ambulance.ui.client.ui.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/updateLocationFragment"
+        android:name="com.example.ambulance.ui.client.ui.addLocation.UpdateLocationFragment"
+        android:label="fragment_update_location"
+        tools:layout="@layout/fragment_update_location" >
+        <argument
+            android:name="locations"
+            app:argType="com.example.ambulance.model.UserLocations"
+            app:nullable="true" />
     </fragment>
 </navigation>

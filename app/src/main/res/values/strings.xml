@@ -4,8 +4,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="password">Enter Your Password</string>
     <string name="email">Enter Your Email</string>
-    <string name="open">Ochiq</string>
-    <string name="close">Yopiq</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
     <string name="full_name">%s %s</string>
+    <string name="full_location">%s City, %s Street, %s Road\'i, %s home</string>
     <string name="nav_header_desc">nav_header_desc</string>
+    <string name="add_location">add_location</string>
 </resources>

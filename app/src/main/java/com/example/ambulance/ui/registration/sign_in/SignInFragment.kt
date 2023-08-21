@@ -70,7 +70,7 @@ class SignInFragment : Fragment() {
                     val currentUser = viewModel.firebaseUser()
                     val role = viewModel.getRoles()
                    // val getUserDetails = viewModel.getUserDetails()
-
+                    SharedPreferencesManager.setRegistered(requireContext(), true)
                     if (currentUser != null && role == "admin") {
                         // Admin login, navigate to admin page
                         navigateToAdminPage()

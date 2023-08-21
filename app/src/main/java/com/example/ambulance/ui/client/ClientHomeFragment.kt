@@ -1,9 +1,7 @@
 package com.example.ambulance.ui.client
 
-import android.Manifest
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -13,14 +11,16 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import com.example.ambulance.MainActivity
 import com.example.ambulance.R
 import com.example.ambulance.databinding.FragmentClientHomeBinding
 import com.example.ambulance.ui.client.ui.AboutFragment
@@ -31,7 +31,6 @@ import com.example.ambulance.ui.client.ui.LocationsFragment
 import com.example.ambulance.ui.client.ui.SettingsFragment
 import com.example.ambulance.ui.registration.viewModel.AuthViewModel
 import com.example.ambulance.util.SharedPreferencesManager
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.navigation.NavigationView
@@ -41,38 +40,17 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.yandex.mapkit.Animation
-import com.yandex.mapkit.MapKit
-import com.yandex.mapkit.MapKitFactory
-import com.yandex.mapkit.directions.DirectionsFactory
-import com.yandex.mapkit.directions.driving.DrivingRoute
-import com.yandex.mapkit.directions.driving.DrivingRouter
-import com.yandex.mapkit.directions.driving.DrivingSession
-import com.yandex.mapkit.geometry.Point
-import com.yandex.mapkit.layers.ObjectEvent
-import com.yandex.mapkit.map.CameraPosition
-import com.yandex.mapkit.map.MapObjectCollection
-import com.yandex.mapkit.search.SearchFactory
-import com.yandex.mapkit.search.SearchManager
-import com.yandex.mapkit.search.SearchManagerType
-import com.yandex.mapkit.user_location.UserLocationLayer
-import com.yandex.mapkit.user_location.UserLocationObjectListener
-import com.yandex.mapkit.user_location.UserLocationView
-import com.yandex.runtime.Error
+import java.util.LinkedList
 
 
-class ClientHomeFragment : Fragment(), UserLocationObjectListener,
-    DrivingSession.DrivingRouteListener {
+class ClientHomeFragment : Fragment() {
     private var _binding: FragmentClientHomeBinding? = null
     val binding get() = _binding!!
     private lateinit var viewModel: AuthViewModel
-    lateinit var locationMapKit: UserLocationLayer
-    lateinit var searchManager: SearchManager
 
-    private var mapObjects: MapObjectCollection? = null
-    private var drivingRouter: DrivingRouter? = null
     private var auth: FirebaseAuth
 
+    private val navigationHistory: MutableList<Int> = mutableListOf() // Initialize this with proper values
     init {
         auth = FirebaseAuth.getInstance()
     }
@@ -86,49 +64,32 @@ class ClientHomeFragment : Fragment(), UserLocationObjectListener,
     }
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requireActivity().window.statusBarColor =
+            ContextCompat.getColor(requireContext(), R.color.white)
 
+        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+
+        val fragment = HomeMapFragment()
+
+        val ft: FragmentTransaction =
+            requireActivity().supportFragmentManager.beginTransaction()
+        ft.replace(R.id.secondNavHostFragment, fragment)
+            .addToBackStack(null) // Add the fragment to the back stack
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit()
         viewModel = ViewModelProvider(
             this, ViewModelProvider.AndroidViewModelFactory
                 .getInstance(requireActivity().application)
         ).get(AuthViewModel::class.java)
 
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        requireActivity().window.statusBarColor =
-            ContextCompat.getColor(requireContext(), R.color.white)
-        //  requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
-        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         val navigationView: NavigationView = view.findViewById(R.id.navigation_view)
         val headerView: View = navigationView.getHeaderView(0)
         val navUsername: TextView = headerView.findViewById(R.id.tv_name)
         val navUserNomer: TextView = headerView.findViewById(R.id.tv_nomer)
 
 
-        requestLocation()
-        val mapKit: MapKit = MapKitFactory.getInstance()
-        var probki = mapKit.createTrafficLayer(binding.fcvMain.mapView.mapWindow)
-        probki.isTrafficVisible = true
-
-
-        locationMapKit = mapKit.createUserLocationLayer(binding.fcvMain.mapView.mapWindow)
-        locationMapKit.isVisible = true
-        binding.fcvMain.mapView.map.move(
-            CameraPosition(Point(41.315355, 69.252374), 14f, 0.0f, 0.0f)
-        )
-
-
-        locationMapKit.setObjectListener(this)
-        SearchFactory.initialize(context)
-        searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED)
-
-        drivingRouter = DirectionsFactory.getInstance().createDrivingRouter()
-        mapObjects = binding.fcvMain.mapView.map.mapObjects.addCollection()
-
-       val pref = SharedPreferencesManager.getEmail(requireContext())
+        val pref = SharedPreferencesManager.getEmail(requireContext())
         val email = pref.first
         val pass = pref.second
 
@@ -185,83 +146,87 @@ class ClientHomeFragment : Fragment(), UserLocationObjectListener,
             val itemId = menuItem.itemId
             when (itemId) {
                 R.id.nav_item0 -> {
-                    binding.frameFragments.visibility = View.GONE
-                    binding.fcvMain.motion.visibility = View.VISIBLE
-                    val fragment = HomeMapFragment()
+                    binding.tvMainTitle.text = "Home"
+                  //  if (::navController.isInitialized) {
+                        //findNavController().navigate(R.id.homeMapFragment)
+                   // }
+                    val fragment2 = HomeMapFragment()
 
                     val ft: FragmentTransaction =
                         requireActivity().supportFragmentManager.beginTransaction()
-                    ft.replace(R.id.frame_fragments, fragment)
+                    ft.replace(R.id.secondNavHostFragment, fragment2)
+                        .addToBackStack(null) // Add the fragment to the back stack
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit()
-
                     true
                 }
 
                 R.id.nav_item -> {
-                    binding.frameFragments.visibility = View.VISIBLE
-                    binding.fcvMain.motion.visibility = View.GONE
-                    val fragment = HistoryClientFragment()
+                    binding.tvMainTitle.text = "History"
+                   // if (::navController.isInitialized) {
+                      //  findNavController().navigate(R.id.historyClientFragment)
+                   // }
+                    val fragment3 = HistoryClientFragment()
 
                     val ft: FragmentTransaction =
                         requireActivity().supportFragmentManager.beginTransaction()
-                    ft.replace(R.id.frame_fragments, fragment)
+                    ft.replace(R.id.secondNavHostFragment, fragment3)
+                        .addToBackStack(null) // Add the fragment to the back stack
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit()
-
                     true
                 }
 
                 R.id.nav_item1 -> {
-                    binding.frameFragments.visibility = View.VISIBLE
-                    binding.fcvMain.motion.visibility = View.GONE
-                    val fragment = LocationsFragment()
+                    binding.tvMainTitle.text = "My Locations"
+                    val fragment4 = LocationsFragment()
 
                     val ft: FragmentTransaction =
                         requireActivity().supportFragmentManager.beginTransaction()
-                    ft.replace(R.id.frame_fragments, fragment)
+                    ft.replace(R.id.secondNavHostFragment, fragment4)
+                        .addToBackStack(null) // Add the fragment to the back stack
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit()
-
                     true
                 }
 
                 R.id.nav_item2 -> {
-                    binding.frameFragments.visibility = View.VISIBLE
-                    binding.fcvMain.motion.visibility = View.GONE
-                    val fragment = ComplainFragment()
+                    binding.tvMainTitle.text = "Complaints and Comments"
+                    val fragment5 = ComplainFragment()
 
                     val ft: FragmentTransaction =
                         requireActivity().supportFragmentManager.beginTransaction()
-                    ft.replace(R.id.frame_fragments, fragment)
+                    ft.replace(R.id.secondNavHostFragment, fragment5)
+                        .addToBackStack(null) // Add the fragment to the back stack
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit()
+
                     true
                 }
 
                 R.id.nav_item3 -> {
-                    binding.frameFragments.visibility = View.VISIBLE
-                    binding.fcvMain.motion.visibility = View.GONE
-                    val fragment = SettingsFragment()
+                    binding.tvMainTitle.text = "Settings"
+
+                    val fragment6 = SettingsFragment()
 
                     val ft: FragmentTransaction =
                         requireActivity().supportFragmentManager.beginTransaction()
-                    ft.replace(R.id.frame_fragments, fragment)
+                    ft.replace(R.id.secondNavHostFragment, fragment6)
+                        .addToBackStack(null) // Add the fragment to the back stack
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit()
                     true
                 }
 
                 R.id.nav_item4 -> {
-                    binding.frameFragments.visibility = View.VISIBLE
-                    binding.fcvMain.motion.visibility = View.GONE
-                    val fragment = AboutFragment()
+                    binding.tvMainTitle.text = "About"
+                     //   findNavController().navigate(R.id.action_clientHomeFragment_to_aboutFragment2)
+                    val fragment5 = AboutFragment()
 
                     val ft: FragmentTransaction =
                         requireActivity().supportFragmentManager.beginTransaction()
-                    ft.replace(R.id.frame_fragments, fragment)
+                    ft.replace(R.id.secondNavHostFragment, fragment5)
+                        .addToBackStack(null) // Add the fragment to the back stack
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit()
                     true
                 }
 
                 R.id.nav_item5 -> {
-                    binding.frameFragments.visibility = View.VISIBLE
-                    binding.fcvMain.motion.visibility = View.GONE
                     val dialogBuilder = AlertDialog.Builder(context)
 
                     // set message of alert dialog
@@ -297,7 +262,7 @@ class ClientHomeFragment : Fragment(), UserLocationObjectListener,
                     // create dialog box
                     val alert = dialogBuilder.create()
                     // set title for alert dialog box
-                    alert.setTitle("Akauntizdan chiqishni xoxlaysizmi?")
+                    alert.setTitle("Leave of Your Account?")
 
                     // show alert dialog
                     alert.show()
@@ -310,15 +275,32 @@ class ClientHomeFragment : Fragment(), UserLocationObjectListener,
                     false
                 }
             }
-
+            // Add the destination to the navigation history
+            navigationHistory.add(itemId)
         }
 
-        binding.fcvMain.cvCurrentLocation.setOnClickListener{
-            requestLocation()
-        }
+        // Intercept the back button press event
+//        val callback = object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                handleCustomBackPressed()
+//            }
+//        }
+//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
-        binding.fcvMain.cvBottomSheet.setBackgroundDrawable(resources.getDrawable(R.drawable.bg_card))
+    }
 
+    override fun onResume() {
+        super.onResume()
+
+        // Clear navigation history when fragment is resumed
+        navigationHistory.clear()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        // Clear navigation history when fragment view is destroyed
+        navigationHistory.clear()
     }
 
 
@@ -341,104 +323,4 @@ class ClientHomeFragment : Fragment(), UserLocationObjectListener,
             }
         }
     }
-
-
-    override fun onStop() {
-        super.onStop()
-        binding.fcvMain.mapView.onStop()
-        MapKitFactory.getInstance().onStop()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        binding.fcvMain.mapView.onStart()
-        MapKitFactory.getInstance().onStart()
-    }
-
-    private fun requestLocation() {
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ), 0
-            )
-            return
-        } else {
-            showCurrentLocation()
-        }
-
-    }
-
-    private fun showCurrentLocation() {
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            val locationProviderClient =
-                LocationServices.getFusedLocationProviderClient(requireActivity())
-            locationProviderClient.lastLocation.addOnSuccessListener { location ->
-                location?.let {
-                    val currentLocation = Point(it.latitude, it.longitude)
-                    moveCameraToLocation(currentLocation)
-                } ?: run {
-                    Toast.makeText(
-                        context,
-                        "Unable to retrieve the current location.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        } else {
-            Toast.makeText(context, "Location permission denied.", Toast.LENGTH_SHORT)
-                .show()
-        }
-    }
-
-    private fun moveCameraToLocation(location: Point) {
-        locationMapKit.isVisible = true
-        val newPosition = CameraPosition(location, 15.0f, 0.0f, 0.0f)
-        binding.fcvMain.mapView.map.move(
-            newPosition,
-            Animation(Animation.Type.SMOOTH, 1.0f),
-            null
-        )
-    }
-
-    override fun onObjectAdded(userLocationView: UserLocationView) {}
-
-    override fun onObjectRemoved(p0: UserLocationView) {
-
-    }
-
-    override fun onObjectUpdated(p0: UserLocationView, p1: ObjectEvent) {
-
-    }
-
-
-    override fun onDrivingRoutes(p0: MutableList<DrivingRoute>) {
-        for (route in p0) {
-            mapObjects!!.addPolyline(route.geometry)
-        }
-    }
-
-    override fun onDrivingRoutesError(p0: Error) {
-        val errorMessage = "Unknown error"
-        Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
-    }
-
 }

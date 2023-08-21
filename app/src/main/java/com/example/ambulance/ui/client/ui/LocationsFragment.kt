@@ -1,60 +1,71 @@
 package com.example.ambulance.ui.client.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.ambulance.MainActivity
 import com.example.ambulance.R
+import com.example.ambulance.adapter.MyListAdapter
+import com.example.ambulance.databinding.FragmentClientHomeBinding
+import com.example.ambulance.databinding.FragmentLocationsBinding
+import com.example.ambulance.model.UserLocations
+import com.example.ambulance.ui.client.ProfileViewModel
+import com.example.ambulance.ui.client.ui.addLocation.AdLocationFragment
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [LocationsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class LocationsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    private var _binding: FragmentLocationsBinding? = null
+    val binding get() = _binding!!
+    lateinit var profileViewModel: ProfileViewModel
+    private lateinit var locationAdapter : MyListAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_locations, container, false)
+        _binding = FragmentLocationsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LocationsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LocationsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.fab.setOnClickListener{
+//            findNavController().navigate(R.id.adLocationFragment)
+            val fragment5 = AdLocationFragment()
+
+            val ft: FragmentTransaction =
+                requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.secondNavHostFragment, fragment5)
+                .addToBackStack(null) // Add the fragment to the back stack
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit()
+        }
+
+        profileViewModel = (activity as MainActivity).profileViewModel
+        setUpRecyclerView()
     }
+    private fun setUpRecyclerView(){
+        locationAdapter = MyListAdapter(requireContext())
+        binding.rvLocations.apply {
+            layoutManager = LinearLayoutManager(requireContext(),RecyclerView.VERTICAL,false)
+            setHasFixedSize(true)
+            adapter = locationAdapter
+        }
+        activity?.let{
+            profileViewModel.getAllLocations().observe(viewLifecycleOwner) { location ->
+
+                locationAdapter.differ.submitList(location)
+//                updateUi(location)
+            }
+        }
+    }
+//    private fun updateUi(location:List<UserLocations>){
+//        if (location.isNotEmpty()){
+//            binding.rvLocations.visibility = View.VISIBLE
+//        }
+//    }
 }

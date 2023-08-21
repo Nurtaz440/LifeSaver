@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="4dp"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/ic_message"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginStart="8dp"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/baseline_mark_email_unread_24" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome Admin!"
+            android:textColor="@color/black"
+            android:fontFamily="@font/alfa_slab_one"
+            android:textSize="20sp"
+            android:layout_toEndOf="@id/ic_message"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="32dp"
+            />
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome Admin!"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:layout_below="@id/tv_title"
+            android:layout_toEndOf="@id/ic_message"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="32dp"
+            />
+
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

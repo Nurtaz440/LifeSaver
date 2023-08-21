@@ -52,7 +52,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:maxLines="2"
-                    android:text="Ayxo'jayev Nurtaz"
+                    android:text="**"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/white"
                     android:textStyle="bold"
@@ -69,7 +69,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="12dp"
                     android:textStyle="italic"
-                    android:text="+998 33 140 42 43"
+                    android:text="*"
                     android:textColor="#B3FFFFFF"
                     android:textSize="14sp"/>
 

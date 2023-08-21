@@ -1,20 +1,40 @@
 package com.example.ambulance.ui.client
 
-import androidx.lifecycle.LiveData
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.ambulance.model.UserDetails
+import androidx.lifecycle.viewModelScope
+import com.example.ambulance.model.UserLocations
 import com.example.ambulance.repository.UserRepository
+import kotlinx.coroutines.launch
 
-class ProfileViewModel(private val userRepository: UserRepository) : ViewModel() {
-//    val allUsers: LiveData<UserDetails> = userRepository.allUsers
+class ProfileViewModel(
+    val app: Application,
+    private val userRepository: UserRepository
+) : ViewModel() {
+    //    val allUsers: LiveData<UserDetails> = userRepository.allUsers
+    fun addNote(locations: UserLocations) = viewModelScope.launch {
+        userRepository.addNote(locations)
+    }
 
-    class ProfileViewModelFactory(private val userRepository: UserRepository) :
+    fun update(locations: UserLocations) = viewModelScope.launch {
+        userRepository.update(locations)
+    }
+
+    fun delete(locations: UserLocations)  = viewModelScope.launch {
+        userRepository.delete(locations)
+    }
+
+    fun getAllLocations() = userRepository.getAllLocations()
+
+
+
+    class ProfileViewModelFactory(val app: Application,private val userRepository: UserRepository) :
         ViewModelProvider.Factory {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
-                return ProfileViewModel(userRepository) as T
+                return ProfileViewModel(app,userRepository) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }
